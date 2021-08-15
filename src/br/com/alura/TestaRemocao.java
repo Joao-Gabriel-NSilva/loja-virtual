@@ -1,8 +1,8 @@
 package br.com.alura;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class TestaRemocao {
 
@@ -10,8 +10,9 @@ public class TestaRemocao {
 
 		Connection con = new ConnectionFactory().recuperarConexao();
 		
-		 Statement stm = con.createStatement();
-		 stm.execute("DELETE FROM PRODUTO WHERE ID > 2");
+		 PreparedStatement stm = con.prepareStatement("DELETE FROM PRODUTO WHERE ID > ?");
+		 stm.setInt(1, 2);
+		 stm.execute();
 		 
 		 Integer linhasModificadas = stm.getUpdateCount();
 		 System.out.println("Quantidade de linhas que foram modificadas: " +linhasModificadas);
