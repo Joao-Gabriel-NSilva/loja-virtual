@@ -12,12 +12,25 @@ public class TestaInsercaoComParametros {
 		
 		Connection connection = new ConnectionFactory().recuperarConexao();
 		connection.setAutoCommit(false);
-
-		PreparedStatement stm = connection.prepareStatement(
-				"INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
 		
-		adicionarVariavel("SmartTV", "45 polegadas", stm);
-		adicionarVariavel("Radio", "Radio de bateria", stm);
+		try {
+			PreparedStatement stm = connection.prepareStatement(
+					"INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+			
+			adicionarVariavel("SmartTV", "45 polegadas", stm);
+			adicionarVariavel("Radio", "Radio de bateria", stm);
+			
+			connection.commit();
+			
+			stm.close();
+			connection.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("ROLLBACK EXECUTADO");
+			connection.rollback();
+		}
+
 	}
 
 	private static void adicionarVariavel(String nome, String descricao, PreparedStatement stm) throws SQLException {
