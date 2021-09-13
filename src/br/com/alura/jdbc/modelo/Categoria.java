@@ -14,6 +14,10 @@ public class Categoria {
 		return nome;
 	}
 	
+	public Integer getId() {
+		return id;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("id : %d, nome: %s", this.id, this.nome);
